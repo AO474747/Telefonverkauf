@@ -49,8 +49,8 @@ export async function ladePreiseAusCSV() {
         preise['VSG'][staerke.toString()] = preis;
       }
       
-      // Debug: Erste 5 Zeilen
-      if (index < 5) {
+      // Debug: Erste 5 Zeilen und ESG/VSG speziell
+      if (index < 5 || glasart.includes('ESG') || glasart.includes('VSG')) {
         console.log(`Zeile ${index + 1}:`, { glasart, staerke, preis });
       }
     });

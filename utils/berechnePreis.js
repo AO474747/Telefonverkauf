@@ -25,6 +25,11 @@ export async function berechnePreis({
     const staerkeStr = staerke.toString();
     const staerkeNum = parseInt(staerke);
     
+    // Debug: Zeige verfügbare Stärken für die Glasart
+    console.log(`=== PREISBERECHNUNG DEBUG ===`);
+    console.log(`Glasart: ${typ}, Stärke: ${staerke}`);
+    console.log(`Verfügbare Stärken für ${typ}:`, Object.keys(m2Preise[typ] || {}));
+    
     // Versuche verschiedene Stärke-Formate zu finden
     let grundpreis = 0;
     if (m2Preise?.[typ]) {
@@ -32,8 +37,11 @@ export async function berechnePreis({
                    m2Preise[typ][staerkeNum] || 
                    m2Preise[typ][staerke] || 
                    0;
+      
+      console.log(`Gefundener Preis für ${typ} ${staerke}mm: ${grundpreis}€/m²`);
     } else {
       console.warn(`Glasart ${typ} nicht gefunden in Preistabelle`);
+      console.log('Verfügbare Glasarten:', Object.keys(m2Preise));
     }
     
     const glaspreis = grundpreis * flaeche_m2;
