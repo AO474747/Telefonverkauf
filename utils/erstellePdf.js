@@ -252,8 +252,13 @@ export function erstellePdf({
   doc.text(`Preise verstehen sich netto zzgl. gesetzlicher MwSt. (19%).`, 10, textY + 5);
   doc.text(`Bei Rückfragen stehen wir Ihnen gern zur Verfügung.`, 10, textY + 10);
   
-  // Kontaktdaten
-  doc.text(`Kontakt: Telefon Verkauf | Tel: [Ihre Telefonnummer] | E-Mail: [Ihre E-Mail]`, 10, textY + 18);
+  // Impressum
+  doc.text(`Glas & Design Glasservice GmbH`, 10, textY + 18);
+  doc.text(`Brüsseler Straße 20, 13353 Berlin`, 10, textY + 23);
+  doc.text(`Tel.: (030) 45 48 20 06 | Fax.: (030) 45 37 129`, 10, textY + 28);
+  doc.text(`E-Mail: post@glasdesign-berlin.de | Web: www.glasdesign-berlin.de`, 10, textY + 33);
+  doc.text(`Geschäftsführer: Abdülakif Çinar`, 10, textY + 38);
+  doc.text(`HR Berlin-Charlottenburg | HRB 54100 | USt-ID: DE167868042`, 10, textY + 43);
 
   // Rückgabe
   const base64 = doc.output('datauristring'); // für EmailJS
