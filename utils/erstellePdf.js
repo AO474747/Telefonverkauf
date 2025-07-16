@@ -31,9 +31,9 @@ export function erstellePdf({
   doc.text('Fax.: (030) 45 37 129', 10, 44);
   doc.text('E-Mail: post@glasdesign-berlin.de', 10, 52);
   
-  // Logo hinzufügen (rechts oben) - mit verbesserter Qualität
+  // Logo hinzufügen (rechts oben) - optimiert für neues hochauflösendes Logo
   try {
-    doc.addImage('/data/glasdesign_logo.png', 'PNG', 150, 10, 35, 35, undefined, 'MEDIUM');
+    doc.addImage('/data/glasdesign_logo.png', 'PNG', 145, 8, 45, 45, undefined, 'MEDIUM');
   } catch (error) {
     console.warn('Logo konnte nicht geladen werden:', error);
   }
