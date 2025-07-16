@@ -1,0 +1,24 @@
+{
+  "name": "akif-telefon-verkauf",
+  "version": "1.0.0",
+  "description": "Glas-Angebotserstellung für Akif Telefon Verkauf",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.1.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.6.0",
+    "vite": "^5.4.19"
+  }
+}

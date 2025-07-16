@@ -1,0 +1,693 @@
+/* Moderne UI-Gestaltung - Grundprinzipien */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Globale Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 24px;
+  background-color: #F4F4F4;
+  color: #1E2A38;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: transparent;
+  padding: 0;
+}
+
+/* Header - Moderne Card-Struktur */
+.header {
+  background-color: #3EB38E;
+  color: white;
+  padding: 32px;
+  text-align: center;
+  border-radius: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 25px -5px rgba(62, 179, 142, 0.3);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.header p {
+  margin: 12px 0 0 0;
+  font-size: 1.125rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* Card-Basis-Styles */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1E2A38;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Kundendaten - Moderne Card */
+.kundendaten-block {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.kundendaten-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* Glasposition - Moderne Card */
+.glasposition-form {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glasposition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Reparatur - Moderne Card */
+.reparatur-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.reparatur-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.reparatur-info {
+  background: #f0f9ff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: center;
+  color: #0369a1;
+  border: 1px solid #e0f2fe;
+  font-weight: 500;
+}
+
+/* Rabatt - Moderne Card */
+.rabatt-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.rabatt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.rabatt-info {
+  background: #fdf4ff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: center;
+  color: #a855f7;
+  border: 1px solid #f3e8ff;
+  font-weight: 500;
+}
+
+/* Moderne Formularfelder */
+.feld {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feld-full {
+  grid-column: 1 / -1;
+}
+
+.feld label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #1E2A38;
+  margin-bottom: 4px;
+}
+
+.feld input,
+.feld select {
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background-color: white;
+  color: #1E2A38;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.feld input:focus,
+.feld select:focus {
+  outline: none;
+  border-color: #3EB38E;
+  box-shadow: 0 0 0 3px rgba(62, 179, 142, 0.1);
+  transform: translateY(-1px);
+}
+
+.feld input::placeholder {
+  color: #9ca3af;
+}
+
+/* Glasart-Suchfunktion */
+.glasart-dropdown-container {
+  position: relative;
+}
+
+.glasart-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background-color: white;
+  color: #1E2A38;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.glasart-input:focus {
+  outline: none;
+  border-color: #3EB38E;
+  box-shadow: 0 0 0 3px rgba(62, 179, 142, 0.1);
+  transform: translateY(-1px);
+}
+
+.glasart-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.glasart-suche {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  background-color: #f9fafb;
+  color: #1E2A38;
+}
+
+.glasart-suche:focus {
+  outline: none;
+  background-color: white;
+}
+
+.glasart-liste {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.glasart-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #1E2A38;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.15s ease;
+}
+
+.glasart-option:hover {
+  background-color: #f3f4f6;
+}
+
+.glasart-option:last-child {
+  border-bottom: none;
+}
+
+.glasart-option.keine-ergebnisse {
+  color: #6b7280;
+  font-style: italic;
+  cursor: default;
+}
+
+.glasart-option.keine-ergebnisse:hover {
+  background-color: transparent;
+}
+
+/* Moderne Buttons */
+button {
+  background-color: #3EB38E;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button:hover {
+  background-color: #2d8a6f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.btn-success {
+  background-color: #3EB38E;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #2d8a6f;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.btn-info {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-info:hover {
+  background-color: #2563eb;
+}
+
+/* Moderne Tabelle */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 24px 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+th, td {
+  padding: 16px;
+  text-align: left;
+  color: #1E2A38;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+th {
+  background-color: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Moderne Preisaufschlüsselung */
+.preisaufschlüsselung {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin: 24px 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #1E2A38;
+}
+
+.preiszeile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+  color: #1E2A38;
+  font-size: 0.875rem;
+}
+
+.preiszeile:last-child {
+  border-bottom: none;
+}
+
+.zwischensumme {
+  font-weight: 600;
+  border-top: 2px solid #3EB38E;
+  border-bottom: 2px solid #3EB38E;
+  margin: 16px 0;
+  padding: 16px 0;
+  color: #1E2A38;
+  font-size: 1rem;
+}
+
+.rabatt {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.gesamtpreis {
+  font-size: 1.25rem;
+  color: #3EB38E;
+  border-top: 3px solid #3EB38E;
+  margin-top: 16px;
+  padding-top: 20px;
+  font-weight: 700;
+}
+
+/* Moderne Icons (CSS-basierte Icons) */
+.icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-user::before { content: "👤"; }
+.icon-email::before { content: "📧"; }
+.icon-phone::before { content: "📞"; }
+.icon-building::before { content: "🏢"; }
+.icon-home::before { content: "🏠"; }
+.icon-tag::before { content: "🏷️"; }
+.icon-globe::before { content: "🌍"; }
+.icon-time::before { content: "⏰"; }
+.icon-tools::before { content: "🔧"; }
+.icon-percent::before { content: "💰"; }
+.icon-list::before { content: "🧾"; }
+.icon-plus::before { content: "+"; }
+.icon-trash::before { content: "🗑️"; }
+.icon-pdf::before { content: "📄"; }
+.icon-mail::before { content: "✉️"; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 16px;
+  }
+  
+  .container {
+    padding: 0;
+  }
+  
+  .header {
+    padding: 24px;
+    border-radius: 16px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .kundendaten-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .glasposition-grid,
+  .reparatur-grid,
+  .rabatt-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .card,
+  .kundendaten-block,
+  .glasposition-form,
+  .reparatur-section,
+  .rabatt-section {
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  .preiszeile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  table {
+    font-size: 0.75rem;
+  }
+  
+  th, td {
+    padding: 12px 8px;
+  }
+}
+
+/* Rabatt Block */
+.rabatt-block {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #FF6B6B;
+}
+
+.rabatt-block h3 {
+  margin: 0 0 16px 0;
+  color: #2C3E50;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.rabatt-controls {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.rabatt-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+}
+
+.rabatt-controls input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3EB38E;
+}
+
+.rabatt-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #E1E8ED;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.rabatt-input:focus {
+  outline: none;
+  border-color: #3EB38E;
+}
+
+/* Lieferung Block */
+.lieferung-block {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #4ECDC4;
+}
+
+.lieferung-block h3 {
+  margin: 0 0 16px 0;
+  color: #2C3E50;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.lieferung-controls {
+  margin-bottom: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3EB38E;
+}
+
+.lieferung-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lieferung-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.lieferung-field:last-child {
+  border-bottom: none;
+}
+
+.lieferung-field label {
+  font-weight: 500;
+  color: #555;
+}
+
+.standard-preis {
+  font-weight: 600;
+  color: #3EB38E;
+  font-size: 16px;
+}
+
+.eigener-preis-input {
+  width: 120px;
+  padding: 8px 12px;
+  border: 2px solid #E1E8ED;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: right;
+  transition: border-color 0.3s ease;
+}
+
+.eigener-preis-input:focus {
+  outline: none;
+  border-color: #3EB38E;
+}
+
+/* Monteur Block */
+.monteur-block {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #45B7D1;
+}
+
+.monteur-block h3 {
+  margin: 0 0 16px 0;
+  color: #2C3E50;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.monteur-controls {
+  margin-bottom: 16px;
+}
+
+.monteur-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.monteur-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.monteur-field:last-child {
+  border-bottom: none;
+}
+
+.monteur-field label {
+  font-weight: 500;
+  color: #555;
+}
+
+.monteur-input {
+  width: 80px;
+  padding: 8px 12px;
+  border: 2px solid #E1E8ED;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.monteur-input:focus {
+  outline: none;
+  border-color: #3EB38E;
+} 
