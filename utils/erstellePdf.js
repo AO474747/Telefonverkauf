@@ -19,7 +19,7 @@ export function erstellePdf({
 }) {
   const doc = new jsPDF();
 
-  // Kopfbereich mit Firmenadresse
+  // Kopfbereich mit Firmenadresse und Logo
   doc.setFontSize(14);
   doc.setFont(undefined, 'bold');
   doc.text('Glas & Design Glasservice GmbH', 10, 20);
@@ -30,6 +30,13 @@ export function erstellePdf({
   doc.text('Tel.: (030) 45 48 20 06', 10, 36);
   doc.text('Fax.: (030) 45 37 129', 10, 44);
   doc.text('E-Mail: post@glasdesign-berlin.de', 10, 52);
+  
+  // Logo hinzufügen (rechts oben)
+  try {
+    doc.addImage('/glasdesign_logo.png', 'PNG', 130, 15, 60, 60);
+  } catch (error) {
+    console.warn('Logo konnte nicht geladen werden:', error);
+  }
   
   // Angebotstitel (rechts) - entfernt, da redundant
   // doc.setFontSize(12);
