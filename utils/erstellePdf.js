@@ -19,28 +19,36 @@ export function erstellePdf({
 }) {
   const doc = new jsPDF();
 
-  // Kopfbereich mit Firmenlogo/Header
-  doc.setFontSize(16);
+  // Kopfbereich mit Firmenadresse
+  doc.setFontSize(14);
   doc.setFont(undefined, 'bold');
-  doc.text('Telefon Verkauf', 105, 20, { align: 'center' });
+  doc.text('Glas & Design Glasservice GmbH', 10, 20);
   
-  doc.setFontSize(12);
+  doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
+  doc.text('Brüsseler Straße 20, 13353 Berlin', 10, 28);
+  doc.text('Tel.: (030) 45 48 20 06', 10, 36);
+  doc.text('Fax.: (030) 45 37 129', 10, 44);
+  doc.text('E-Mail: post@glasdesign-berlin.de', 10, 52);
+  
+  // Angebotstitel (rechts)
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
   doc.text('Glas-Angebot', 105, 30, { align: 'center' });
 
   // Trennlinie nach Header
   doc.setDrawColor(62, 179, 142); // #3EB38E
   doc.setLineWidth(0.5);
-  doc.line(10, 35, 200, 35);
+  doc.line(10, 60, 200, 60);
 
   // Kundendaten - wie ein echter Briefkopf
   doc.setFontSize(11);
   doc.setFont(undefined, 'bold');
-  doc.text('Kundendaten:', 10, 45);
+  doc.text('Kundendaten:', 10, 70);
   
   doc.setFont(undefined, 'normal');
   doc.setFontSize(10);
-  let yPos = 52;
+  let yPos = 77;
   
   // Firma (falls vorhanden)
   if (kundenDaten.firma) {
