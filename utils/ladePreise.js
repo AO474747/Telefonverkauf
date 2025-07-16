@@ -21,6 +21,7 @@ export async function ladePreiseAusCSV() {
     
     // In das benötigte Format konvertieren
     const preise = {};
+    const glasartenSet = new Set(); // Für eindeutige Glasarten-Liste
     
     data.forEach((line, index) => {
       const values = line.split(';');
@@ -32,11 +33,14 @@ export async function ladePreiseAusCSV() {
         preise[glasart] = {};
       }
       
+      // Füge zur eindeutigen Glasarten-Liste hinzu
+      glasartenSet.add(glasart);
+      
       // Speichere sowohl als String als auch als Number
       preise[glasart][staerke] = preis;
       preise[glasart][staerke.toString()] = preis;
       
-      // Erstelle auch Kurznamen für bessere Suche
+      // Erstelle auch Kurznamen für bessere Suche (nur für interne Verwendung)
       if (glasart.includes('Einscheibensicherheitsglas (ESG)')) {
         if (!preise['ESG']) preise['ESG'] = {};
         preise['ESG'][staerke] = preis;

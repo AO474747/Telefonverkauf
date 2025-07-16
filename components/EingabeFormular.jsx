@@ -26,7 +26,7 @@ const EingabeFormular = () => {
     gueltigBis: getGueltigBis()
   });
   const [eingabe, setEingabe] = useState({
-    typ: 'ESG',
+    typ: '',
     staerke: 6,
     breite: 1000,
     hoehe: 1000,
@@ -68,7 +68,10 @@ const EingabeFormular = () => {
     const ladeGlasarten = async () => {
       try {
         const preise = await getPreise();
-        const glasartenListe = Object.keys(preise).sort((a, b) => a.localeCompare(b, 'de'));
+        // Filtere nur echte CSV-Glasarten (ohne Kurznamen)
+        const glasartenListe = Object.keys(preise)
+          .filter(glasart => !['ESG', 'VSG', 'Floatglas'].includes(glasart)) // Entferne Kurznamen
+          .sort((a, b) => a.localeCompare(b, 'de'));
         setCsvGlasarten(glasartenListe);
         setCsvPreise(preise);
         
