@@ -33,7 +33,7 @@ export function erstellePdf({
   doc.setLineWidth(0.5);
   doc.line(10, 35, 200, 35);
 
-  // Kundendaten
+  // Kundendaten - wie ein echter Briefkopf
   doc.setFontSize(11);
   doc.setFont(undefined, 'bold');
   doc.text('Kundendaten:', 10, 45);
@@ -42,36 +42,46 @@ export function erstellePdf({
   doc.setFontSize(10);
   let yPos = 52;
   
+  // Firma (falls vorhanden)
   if (kundenDaten.firma) {
-    doc.text(`Firma: ${kundenDaten.firma}`, 10, yPos);
+    doc.text(kundenDaten.firma, 10, yPos);
     yPos += 6;
   }
   
-  doc.text(`Name: ${kundenDaten.name}`, 10, yPos);
+  // Name
+  doc.text(kundenDaten.name, 10, yPos);
   yPos += 6;
   
+  // Adresse
   if (kundenDaten.strasse) {
-    doc.text(`Adresse: ${kundenDaten.strasse}`, 10, yPos);
+    doc.text(kundenDaten.strasse, 10, yPos);
     yPos += 6;
   }
   
+  // PLZ/Ort
   if (kundenDaten.plz || kundenDaten.ort) {
-    doc.text(`PLZ/Ort: ${kundenDaten.plz || ''} ${kundenDaten.ort || ''}`, 10, yPos);
+    doc.text(`${kundenDaten.plz || ''} ${kundenDaten.ort || ''}`, 10, yPos);
     yPos += 6;
   }
   
+  // Leerzeile vor Kontaktdaten
+  yPos += 3;
+  
+  // Telefon (falls vorhanden)
   if (kundenDaten.telefon) {
-    doc.text(`Telefon: ${kundenDaten.telefon}`, 10, yPos);
+    doc.text(`Tel: ${kundenDaten.telefon}`, 10, yPos);
     yPos += 6;
   }
   
+  // E-Mail (falls vorhanden)
   if (kundenDaten.email) {
     doc.text(`E-Mail: ${kundenDaten.email}`, 10, yPos);
     yPos += 6;
   }
   
+  // Zusatz (falls vorhanden)
   if (kundenDaten.zusatz) {
-    doc.text(`Zusatz: ${kundenDaten.zusatz}`, 10, yPos);
+    doc.text(kundenDaten.zusatz, 10, yPos);
     yPos += 6;
   }
 
