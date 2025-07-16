@@ -192,7 +192,16 @@ export function erstellePdf({
   if (parseFloat(rabattBetrag) > 0) {
     doc.setFont(undefined, 'normal');
     doc.setTextColor(179, 62, 142); // #B33E8E (Magenta)
-    doc.text(`Rabatt:`, 10, priceY);
+    
+    // Rabatt-Typ anzeigen
+    let rabattText = 'Rabatt:';
+    if (rabatt && rabatt.typ === 'prozent') {
+      rabattText = `Rabatt ${rabatt.wert}%:`;
+    } else if (rabatt && rabatt.typ === 'euro') {
+      rabattText = `${rabatt.wert} € Rabatt:`;
+    }
+    
+    doc.text(rabattText, 10, priceY);
     doc.text(`-${rabattBetrag} €`, 180, priceY, { align: 'right' });
     doc.setTextColor(0, 0, 0); // Zurück zu schwarz
     priceY += 6;
