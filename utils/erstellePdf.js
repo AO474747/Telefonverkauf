@@ -31,10 +31,10 @@ export function erstellePdf({
   doc.text('Fax.: (030) 45 37 129', 10, 44);
   doc.text('E-Mail: post@glasdesign-berlin.de', 10, 52);
   
-  // Angebotstitel (rechts)
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'bold');
-  doc.text('Glas-Angebot', 105, 30, { align: 'center' });
+  // Angebotstitel (rechts) - entfernt, da redundant
+  // doc.setFontSize(12);
+  // doc.setFont(undefined, 'bold');
+  // doc.text('Glas-Angebot', 105, 30, { align: 'center' });
 
   // Trennlinie nach Header
   doc.setDrawColor(62, 179, 142); // #3EB38E
