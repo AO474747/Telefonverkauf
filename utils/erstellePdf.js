@@ -41,10 +41,10 @@ export function erstellePdf({
   doc.setLineWidth(0.5);
   doc.line(10, 60, 200, 60);
 
-  // Kundendaten - wie ein echter Briefkopf
+  // Glas-Angebot für - wie ein echter Briefkopf
   doc.setFontSize(11);
   doc.setFont(undefined, 'bold');
-  doc.text('Kundendaten:', 10, 70);
+  doc.text('Glas-Angebot für:', 10, 70);
   
   doc.setFont(undefined, 'normal');
   doc.setFontSize(10);
