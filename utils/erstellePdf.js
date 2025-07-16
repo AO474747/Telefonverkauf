@@ -33,7 +33,7 @@ export function erstellePdf({
   
   // Logo hinzufügen (rechts oben)
   try {
-    doc.addImage('/glasdesign_logo.png', 'PNG', 130, 15, 60, 60);
+    doc.addImage('/data/glasdesign_logo.png', 'PNG', 130, 15, 60, 60);
   } catch (error) {
     console.warn('Logo konnte nicht geladen werden:', error);
   }
