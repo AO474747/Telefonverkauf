@@ -75,10 +75,10 @@ const EingabeFormular = () => {
         setCsvGlasarten(glasartenListe);
         setCsvPreise(preise);
         
-        // Setze erste Glasart als Standard (aber nur wenn noch keine ausgewählt)
-        if (glasartenListe.length > 0 && !eingabe.typ) {
-          setEingabe(prev => ({ ...prev, typ: glasartenListe[0] }));
-        }
+        // Setze KEINE Standard-Glasart - Feld soll leer bleiben
+        // if (glasartenListe.length > 0 && !eingabe.typ) {
+        //   setEingabe(prev => ({ ...prev, typ: glasartenListe[0] }));
+        // }
         
         // Debug: Zeige verfügbare Glasarten
         console.log('Verfügbare Glasarten:', glasartenListe);
@@ -203,6 +203,12 @@ const EingabeFormular = () => {
   };
 
   const handlePositionHinzufuegen = async () => {
+    // Prüfe ob eine Glasart ausgewählt wurde
+    if (!eingabe.typ || eingabe.typ.trim() === '') {
+      alert('Bitte wählen Sie eine Glasart aus.');
+      return;
+    }
+    
     try {
       const preis = await berechnePreis(eingabe);
       
@@ -219,7 +225,7 @@ const EingabeFormular = () => {
       
       // Formular zurücksetzen
       setEingabe({
-        typ: csvGlasarten[0] || 'Einscheibensicherheitsglas (ESG)',
+        typ: '', // Leeres Feld für Platzhalter
         staerke: 6,
         breite: 1000,
         hoehe: 1000,
@@ -244,7 +250,7 @@ const EingabeFormular = () => {
     
     // Eingabe zurücksetzen
     setEingabe({
-      typ: csvGlasarten[0] || 'ESG',
+      typ: '', // Leeres Feld für Platzhalter
       staerke: 6,
       breite: 1000,
       hoehe: 1000,
