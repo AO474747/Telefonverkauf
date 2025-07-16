@@ -70,7 +70,7 @@ const EingabeFormular = () => {
         const preise = await getPreise();
         // Filtere nur echte CSV-Glasarten (ohne Kurznamen)
         const glasartenListe = Object.keys(preise)
-          .filter(glasart => !['ESG', 'VSG', 'Floatglas'].includes(glasart)) // Entferne Kurznamen
+          .filter(glasart => !['ESG', 'VSG'].includes(glasart)) // Entferne nur ESG und VSG Kurznamen
           .sort((a, b) => a.localeCompare(b, 'de'));
         setCsvGlasarten(glasartenListe);
         setCsvPreise(preise);
