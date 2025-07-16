@@ -231,7 +231,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  max-height: 300px;
+  max-height: 400px;
   overflow: hidden;
 }
 
@@ -251,8 +251,28 @@ body {
 }
 
 .glasart-liste {
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+}
+
+.glasart-liste::-webkit-scrollbar {
+  width: 8px;
+}
+
+.glasart-liste::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 4px;
+}
+
+.glasart-liste::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.glasart-liste::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 .glasart-option {
@@ -280,6 +300,20 @@ body {
 
 .glasart-option.keine-ergebnisse:hover {
   background-color: transparent;
+}
+
+.glasart-option.mehr-ergebnisse {
+  color: #6b7280;
+  font-style: italic;
+  cursor: default;
+  background-color: #f9fafb;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 8px 16px;
+}
+
+.glasart-option.mehr-ergebnisse:hover {
+  background-color: #f9fafb;
 }
 
 /* Moderne Buttons */

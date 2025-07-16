@@ -102,7 +102,7 @@ const EingabeFormular = () => {
 
   // Gefilterte Glasarten basierend auf Suche
   const gefilterteGlasarten = csvGlasarten.filter(glasart =>
-    glasart.toLowerCase().includes(glasartSuche.toLowerCase())
+    glasartSuche === '' ? true : glasart.toLowerCase().includes(glasartSuche.toLowerCase())
   );
 
   // Verfügbare Stärken für die ausgewählte Glasart
@@ -449,7 +449,7 @@ const EingabeFormular = () => {
                     autoFocus
                   />
                   <div className="glasart-liste">
-                    {gefilterteGlasarten.slice(0, 10).map((glasart) => (
+                    {gefilterteGlasarten.slice(0, 50).map((glasart) => (
                       <div
                         key={glasart}
                         className="glasart-option"
@@ -462,6 +462,11 @@ const EingabeFormular = () => {
                         {glasart}
                       </div>
                     ))}
+                    {gefilterteGlasarten.length > 50 && (
+                      <div className="glasart-option mehr-ergebnisse">
+                        ... und {gefilterteGlasarten.length - 50} weitere (suchen Sie für mehr Ergebnisse)
+                      </div>
+                    )}
                     {gefilterteGlasarten.length === 0 && (
                       <div className="glasart-option keine-ergebnisse">
                         Keine Ergebnisse gefunden
