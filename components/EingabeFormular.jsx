@@ -72,8 +72,8 @@ const EingabeFormular = () => {
         setCsvGlasarten(glasartenListe);
         setCsvPreise(preise);
         
-        // Setze erste Glasart als Standard
-        if (glasartenListe.length > 0) {
+        // Setze erste Glasart als Standard (aber nur wenn noch keine ausgewählt)
+        if (glasartenListe.length > 0 && !eingabe.typ) {
           setEingabe(prev => ({ ...prev, typ: glasartenListe[0] }));
         }
         
@@ -436,14 +436,14 @@ const EingabeFormular = () => {
             <div className="glasart-dropdown-container">
               <input
                 type="text"
-                value={eingabe.typ}
+                value={eingabe.typ || ''}
                 onChange={(e) => {
                   setEingabe({ ...eingabe, typ: e.target.value });
                   setGlasartSuche(e.target.value);
                   setShowGlasartDropdown(true);
                 }}
                 onFocus={() => setShowGlasartDropdown(true)}
-                placeholder="Glasart suchen..."
+                placeholder="Bitte Glasart wählen..."
                 className="glasart-input"
               />
               {showGlasartDropdown && (
@@ -452,7 +452,7 @@ const EingabeFormular = () => {
                     type="text"
                     value={glasartSuche}
                     onChange={(e) => setGlasartSuche(e.target.value)}
-                    placeholder="Suchen..."
+                    placeholder="Glasart suchen..."
                     className="glasart-suche"
                     autoFocus
                   />
