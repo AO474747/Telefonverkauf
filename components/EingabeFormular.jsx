@@ -76,6 +76,9 @@ const EingabeFormular = () => {
         if (glasartenListe.length > 0) {
           setEingabe(prev => ({ ...prev, typ: glasartenListe[0] }));
         }
+        
+        // Debug: Zeige verfügbare Glasarten
+        console.log('Verfügbare Glasarten:', glasartenListe);
       } catch (error) {
         console.error('Fehler beim Laden der Glasarten:', error);
         // Fallback zu Standard-Glasarten
@@ -118,13 +121,13 @@ const EingabeFormular = () => {
   console.log(`Aktuelle Stärke: ${eingabe.staerke}`);
   console.log(`Ist aktuelle Stärke verfügbar:`, verfuegbareStaerken.includes(eingabe.staerke));
 
-  // Korrigiere Stärke wenn sie nicht verfügbar ist
+  // Korrigiere Stärke nur beim ersten Laden, nicht bei jeder Änderung
   useEffect(() => {
     if (eingabe.typ && verfuegbareStaerken.length > 0 && !verfuegbareStaerken.includes(eingabe.staerke)) {
       console.log(`Stärke ${eingabe.staerke} nicht verfügbar für ${eingabe.typ}. Setze auf ${verfuegbareStaerken[0]}`);
       setEingabe(prev => ({ ...prev, staerke: verfuegbareStaerken[0] }));
     }
-  }, [eingabe.typ, verfuegbareStaerken]);
+  }, [eingabe.typ]); // Nur bei Glasart-Änderung, nicht bei Stärke-Änderung
 
   // Schließe Dropdown wenn außerhalb geklickt wird
   useEffect(() => {
@@ -154,7 +157,7 @@ const EingabeFormular = () => {
   const handleInput = (e) => {
     const { name, value } = e.target;
     
-    // Wenn Glasart geändert wird, setze die erste verfügbare Stärke
+    // Wenn Glasart geändert wird, prüfe ob die aktuelle Stärke verfügbar ist
     if (name === 'typ') {
       const neueStaerken = csvPreise[value] ? 
         Object.keys(csvPreise[value])
@@ -165,11 +168,16 @@ const EingabeFormular = () => {
       
       console.log(`Glasart geändert zu: ${value}`);
       console.log(`Verfügbare Stärken:`, neueStaerken);
+      console.log(`Aktuelle Stärke: ${eingabe.staerke}`);
+      
+      // Prüfe ob die aktuelle Stärke für die neue Glasart verfügbar ist
+      const aktuelleStaerkeVerfuegbar = neueStaerken.includes(eingabe.staerke);
       
       setEingabe({ 
         ...eingabe, 
         [name]: value, 
-        staerke: neueStaerken[0] || 4 
+        // Nur Stärke ändern wenn die aktuelle nicht verfügbar ist
+        staerke: aktuelleStaerkeVerfuegbar ? eingabe.staerke : (neueStaerken[0] || 4)
       });
     } else {
       setEingabe({ ...eingabe, [name]: value });
@@ -208,7 +216,7 @@ const EingabeFormular = () => {
       
       // Formular zurücksetzen
       setEingabe({
-        typ: 'ESG',
+        typ: csvGlasarten[0] || 'Einscheibensicherheitsglas (ESG)',
         staerke: 6,
         breite: 1000,
         hoehe: 1000,
