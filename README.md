@@ -94,4 +94,4 @@ Die Preise werden aus CSV-Dateien geladen:
 Bei Fragen oder Problemen:
 1. **Build-Logs** in Netlify prüfen
 2. **Browser-Konsole** für JavaScript-Fehler
-3. **Lokal testen** mit `npm run build && npm run preview` 
+3. **Lokal testen** mit `npm run build && npm run preview` # Trigger Netlify Deployment
