@@ -119,7 +119,7 @@ export function erstellePdf({
   doc.setFont(undefined, 'bold');
   doc.text('Stückliste:', 10, yPos);
 
-  // Tabelle mit Positionen
+  // Tabelle mit Positionen (Netto-Preise)
   const tableBody = positionen.map((pos, index) => [
     `${index + 1}.`,
     pos.typ,
@@ -127,8 +127,8 @@ export function erstellePdf({
     `${pos.breite} × ${pos.hoehe} mm`,
     `${pos.flaeche_m2} m²`,
     `${pos.menge}x`,
-    `${pos.bruttopreis} €`,
-    `${pos.gesamtpreis} €`
+    `${pos.nettopreis} €`,
+    `${pos.gesamtNettopreis} €`
   ]);
 
   autoTable(doc, {
@@ -169,53 +169,39 @@ export function erstellePdf({
   doc.setFontSize(10);
   let priceY = endY + 8;
   
-  // Glas-Gesamt
+  // Glas-Gesamt (Netto mit Brutto in Klammern)
   doc.text(`Glas-Gesamt:`, 10, priceY);
-  doc.text(`${glasGesamtpreis} €`, 180, priceY, { align: 'right' });
+  doc.text(`${glasGesamtNettopreis} € (${glasGesamtpreis} € Brutto)`, 180, priceY, { align: 'right' });
   priceY += 6;
   
-  // Glas-Gesamt Nettopreis
-  doc.text(`Glas-Gesamt Nettopreis:`, 10, priceY);
-  doc.text(`${glasGesamtNettopreis} €`, 180, priceY, { align: 'right' });
-  priceY += 6;
-  
-  // Reparatur (falls vorhanden)
+  // Reparatur (falls vorhanden) - Netto mit Brutto in Klammern
   if (parseFloat(reparaturGesamtpreis) > 0) {
+    const reparaturBrutto = (parseFloat(reparaturGesamtpreis) * 1.19).toFixed(2);
     doc.text(`Reparatur-Gesamt:`, 10, priceY);
-    doc.text(`${reparaturGesamtpreis} €`, 180, priceY, { align: 'right' });
+    doc.text(`${reparaturGesamtpreis} € (${reparaturBrutto} € Brutto)`, 180, priceY, { align: 'right' });
     priceY += 6;
   }
   
-  // Zwischensumme
-  doc.setFont(undefined, 'bold');
-  doc.text(`Zwischensumme:`, 10, priceY);
-  doc.text(`${zwischensumme} €`, 180, priceY, { align: 'right' });
-  
-  // Zwischensumme Netto
-  doc.text(`Zwischensumme Netto:`, 10, priceY + 6);
-  doc.text(`${zwischensummeNetto} €`, 180, priceY + 6, { align: 'right' });
-  priceY += 12;
-  
-  // Lieferkosten (falls aktiviert)
+  // Lieferkosten (falls aktiviert) - Netto mit Brutto in Klammern
   if (lieferung && lieferung.aktiv) {
     const lieferkosten = lieferung.eigenerPreis > 0 ? lieferung.eigenerPreis : lieferung.standardPreis;
     const lieferkostenBrutto = lieferkosten * 1.19; // 19% MwSt
-    doc.text(`Lieferkosten (Brutto):`, 10, priceY);
-    doc.text(`${lieferkostenBrutto.toFixed(2)} €`, 180, priceY, { align: 'right' });
+    doc.text(`Lieferkosten:`, 10, priceY);
+    doc.text(`${lieferkosten.toFixed(2)} € (${lieferkostenBrutto.toFixed(2)} € Brutto)`, 180, priceY, { align: 'right' });
     priceY += 6;
   }
   
-  // Monteur-Kosten (falls aktiviert)
+  // Monteur-Kosten (falls aktiviert) - Netto mit Brutto in Klammern
   if (monteur && monteur.aktiv) {
     const stundenpreis = monteur.eigenerPreis > 0 ? monteur.eigenerPreis : monteur.standardStundenpreis;
     const monteurKosten = monteur.anzahl * monteur.stunden * stundenpreis;
     const monteurKostenBrutto = monteurKosten * 1.19; // 19% MwSt
-    doc.text(`Monteur-Kosten (Brutto) (${monteur.anzahl} Monteur${monteur.anzahl > 1 ? 'e' : ''}, ${monteur.stunden} Stunde${monteur.stunden > 1 ? 'n' : ''}):`, 10, priceY);
-    doc.text(`${monteurKostenBrutto.toFixed(2)} €`, 180, priceY, { align: 'right' });
+    doc.text(`Monteur-Kosten (${monteur.anzahl} Monteur${monteur.anzahl > 1 ? 'e' : ''}, ${monteur.stunden} Stunde${monteur.stunden > 1 ? 'n' : ''}):`, 10, priceY);
+    doc.text(`${monteurKosten.toFixed(2)} € (${monteurKostenBrutto.toFixed(2)} € Brutto)`, 180, priceY, { align: 'right' });
     priceY += 6;
   }
   
-  // Rabatt (falls vorhanden)
+  // Rabatt (falls vorhanden) - Netto mit Brutto in Klammern
   if (parseFloat(rabattBetrag) > 0) {
     doc.setFont(undefined, 'normal');
     doc.setTextColor(179, 62, 142); // #B33E8E (Magenta)
@@ -224,12 +210,13 @@ export function erstellePdf({
     let rabattText = 'Rabatt:';
     if (rabatt && rabatt.typ === 'prozent') {
       rabattText = `Rabatt ${rabatt.wert}%:`;
-    } else if (rabatt && rabatt.typ === 'euro') {
+    } else if (rabatt && rabatt.typ === 'betrag') {
       rabattText = `${rabatt.wert} € Rabatt:`;
     }
     
+    const rabattBrutto = (parseFloat(rabattBetrag) * 1.19).toFixed(2);
     doc.text(rabattText, 10, priceY);
-    doc.text(`-${rabattBetrag} €`, 180, priceY, { align: 'right' });
+    doc.text(`-${rabattBetrag} € (-${rabattBrutto} € Brutto)`, 180, priceY, { align: 'right' });
     doc.setTextColor(0, 0, 0); // Zurück zu schwarz
     priceY += 6;
   }

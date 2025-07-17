@@ -38,7 +38,7 @@ const EingabeFormular = () => {
   });
   const [positionen, setPositionen] = useState([]);
   const [reparatur, setReparatur] = useState({
-    anzahl: 0,
+    anzahl: 1,
     preis: 0
   });
   const [rabatt, setRabatt] = useState({
@@ -263,7 +263,7 @@ const EingabeFormular = () => {
     
     // Reparatur zurücksetzen
     setReparatur({
-      anzahl: 0,
+      anzahl: 1,
       preis: 0
     });
     
@@ -330,18 +330,21 @@ const EingabeFormular = () => {
   const lieferkostenBrutto = lieferkosten * 1.19;
   const monteurKostenBrutto = monteurKosten * 1.19;
   
-  const zwischensumme = glasGesamtpreis + reparaturGesamtpreis + lieferkostenBrutto + monteurKostenBrutto;
+  // Berechne Brutto-Beträge für Reparatur (19% MwSt)
+  const reparaturGesamtpreisBrutto = reparaturGesamtpreis * 1.19;
+  
+  const zwischensumme = glasGesamtpreis + reparaturGesamtpreisBrutto + lieferkostenBrutto + monteurKostenBrutto;
   const zwischensummeNetto = glasGesamtNettopreis + reparaturGesamtpreis + lieferkosten + monteurKosten;
   
   let rabattBetrag = 0;
   if (rabatt.typ === 'prozent') {
-    rabattBetrag = (zwischensumme * rabatt.wert) / 100;
+    rabattBetrag = (zwischensummeNetto * rabatt.wert) / 100; // Rabatt auf Netto-Summe
   } else {
     rabattBetrag = rabatt.wert;
   }
   
-  const gesamtpreis = Math.max(0, zwischensumme - rabattBetrag);
   const gesamtpreisNetto = Math.max(0, zwischensummeNetto - rabattBetrag);
+  const gesamtpreis = Math.max(0, zwischensumme - rabattBetrag);
 
   const handlePdf = () => {
     erstellePdf({ 
@@ -400,50 +403,6 @@ const EingabeFormular = () => {
 
   return (
     <div>
-      <div className="kundendaten-block">
-        <h3>
-          <span className="icon icon-user"></span>
-          Kundendaten
-        </h3>
-        <div className="kundendaten-grid">
-          <div className="feld">
-            <label>Name *</label>
-            <input type="text" name="name" value={kundenDaten.name} onChange={handleKunde} required placeholder="Vollständiger Name" />
-          </div>
-          <div className="feld">
-            <label>E-Mail *</label>
-            <input type="email" name="email" value={kundenDaten.email} onChange={handleKunde} required placeholder="ihre.email@beispiel.de" />
-          </div>
-          <div className="feld">
-            <label>Telefon</label>
-            <input type="text" name="telefon" value={kundenDaten.telefon} onChange={handleKunde} placeholder="+49 123 456789" />
-          </div>
-          <div className="feld">
-            <label>Firma</label>
-            <input type="text" name="firma" value={kundenDaten.firma} onChange={handleKunde} placeholder="Firmenname (optional)" />
-          </div>
-          <div className="feld feld-full">
-            <label>Straße</label>
-            <input type="text" name="strasse" value={kundenDaten.strasse} onChange={handleKunde} placeholder="Straße und Hausnummer" />
-          </div>
-          <div className="feld">
-            <label>PLZ</label>
-            <input type="text" name="plz" value={kundenDaten.plz} onChange={handleKunde} placeholder="12345" />
-          </div>
-          <div className="feld">
-            <label>Ort</label>
-            <input type="text" name="ort" value={kundenDaten.ort} onChange={handleKunde} placeholder="Stadt" />
-          </div>
-          <div className="feld">
-            <label>Zusatz</label>
-            <input type="text" name="zusatz" value={kundenDaten.zusatz} onChange={handleKunde} placeholder="Etage, Zimmer, etc." />
-          </div>
-          <div className="feld">
-            <label>Gültig bis</label>
-            <input type="text" name="gueltigBis" value={kundenDaten.gueltigBis} onChange={handleKunde} readOnly style={{ backgroundColor: '#f9fafb', cursor: 'not-allowed' }} />
-          </div>
-        </div>
-      </div>
 
       <div className="glasposition-form">
         <h3>
@@ -560,27 +519,7 @@ const EingabeFormular = () => {
         </div>
       </div>
 
-      <div className="reparatur-section">
-        <h3>
-          <span className="icon icon-tools"></span>
-          Reparatur
-        </h3>
-        <div className="reparatur-grid">
-          <div className="feld">
-            <label>Anzahl Reparaturen</label>
-            <input name="anzahl" type="number" value={reparatur.anzahl} onChange={handleReparatur} min="0" placeholder="0" />
-          </div>
-          <div className="feld">
-            <label>Preis pro Reparatur (€)</label>
-            <input name="preis" type="number" value={reparatur.preis} onChange={handleReparatur} min="0" step="0.01" placeholder="0.00" />
-          </div>
-        </div>
-        {reparatur.anzahl > 0 && (
-          <div className="reparatur-info">
-            <strong>Reparatur-Gesamt: {reparaturGesamtpreis.toFixed(2)} €</strong>
-          </div>
-        )}
-      </div>
+
 
       {positionen.length > 0 && (
         <>
@@ -630,36 +569,39 @@ const EingabeFormular = () => {
             
             <div className="preisaufschlüsselung">
               <div className="preiszeile">
-                <span>Glas-Gesamt (Netto):</span>
-                <span>{glasGesamtNettopreis.toFixed(2)} €</span>
+                <span>Glas-Gesamt:</span>
+                <span>{glasGesamtNettopreis.toFixed(2)} € ({glasGesamtpreis.toFixed(2)} € Brutto)</span>
               </div>
               <div className="preiszeile">
-                <span>Glas-Gesamt (Brutto):</span>
-                <span>{glasGesamtpreis.toFixed(2)} €</span>
+                <span>Reparatur-Gesamt:</span>
+                <span>{reparaturGesamtpreis.toFixed(2)} € ({(reparaturGesamtpreis * 1.19).toFixed(2)} € Brutto)</span>
               </div>
-              {reparatur.anzahl > 0 && (
+              {lieferung.aktiv && (
                 <div className="preiszeile">
-                  <span>Reparatur-Gesamt:</span>
-                  <span>{reparaturGesamtpreis.toFixed(2)} €</span>
+                  <span>Lieferkosten:</span>
+                  <span>{berechneLieferkosten().toFixed(2)} € ({(berechneLieferkosten() * 1.19).toFixed(2)} € Brutto)</span>
                 </div>
               )}
-              <div className="preiszeile zwischensumme">
-                <span>Zwischensumme (Brutto):</span>
-                <span>{zwischensumme.toFixed(2)} €</span>
-              </div>
+              {monteur.aktiv && (
+                <div className="preiszeile">
+                  <span>Monteur-Kosten ({monteur.anzahl} Monteur{monteur.anzahl > 1 ? 'e' : ''}, {monteur.stunden} Stunde{monteur.stunden > 1 ? 'n' : ''}):</span>
+                  <span>{berechneMonteurKosten().toFixed(2)} € ({(berechneMonteurKosten() * 1.19).toFixed(2)} € Brutto)</span>
+                </div>
+              )}
+              {/* Zwischensumme-Zeilen ausgeblendet */}
               {rabatt.wert > 0 && (
                 <div className="preiszeile rabatt">
                   <span>Rabatt:</span>
-                  <span>-{rabattBetrag.toFixed(2)} €</span>
+                  <span>-{rabattBetrag.toFixed(2)} € ({(rabattBetrag * 1.19).toFixed(2)} € Brutto)</span>
                 </div>
               )}
               <div className="preiszeile gesamtpreis">
-                <span><strong>Gesamt (Netto):</strong></span>
-                <span><strong>{gesamtpreisNetto.toFixed(2)} €</strong></span>
+                <span><strong>Gesamtsumme (brutto):</strong></span>
+                <span><strong>{gesamtpreis.toFixed(2)} €</strong></span>
               </div>
               <div className="preiszeile gesamtpreis">
-                <span><strong>Gesamt (Brutto):</strong></span>
-                <span><strong>{gesamtpreis.toFixed(2)} €</strong></span>
+                <span><strong>Gesamtsumme Netto:</strong></span>
+                <span><strong>{gesamtpreisNetto.toFixed(2)} €</strong></span>
               </div>
             </div>
 
@@ -679,6 +621,125 @@ const EingabeFormular = () => {
             </div>
           </div>
 
+          {/* Zusatzkosten Grid */}
+          <div className="zusatzkosten-grid">
+            {/* Reparatur Kachel */}
+            <div className="zusatzkosten-kachel">
+              <h3>
+                <span className="icon icon-tools"></span>
+                Reparatur
+              </h3>
+              <div className="kachel-content">
+                <div className="feld">
+                  <label>Anzahl Reparaturen</label>
+                  <input name="anzahl" type="number" value={reparatur.anzahl} onChange={handleReparatur} min="0" placeholder="0" />
+                </div>
+                <div className="feld">
+                  <label>Preis pro Reparatur (€)</label>
+                  <input name="preis" type="number" value={reparatur.preis} onChange={handleReparatur} min="0" step="0.01" placeholder="0.00" />
+                </div>
+                {reparatur.anzahl > 0 && (
+                  <div className="kachel-info">
+                    <strong>Reparatur-Gesamt: {reparaturGesamtpreis.toFixed(2)} €</strong>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Lieferung Kachel */}
+            <div className="zusatzkosten-kachel">
+              <h3>
+                <span className="icon icon-truck"></span>
+                Lieferung
+              </h3>
+              <div className="kachel-content">
+                <div className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={lieferung.aktiv}
+                    onChange={(e) => setLieferung({...lieferung, aktiv: e.target.checked})}
+                  />
+                  Lieferung aktivieren
+                </div>
+                {lieferung.aktiv && (
+                  <div className="kachel-details">
+                    <div className="feld">
+                      <label>Standard Lieferkosten:</label>
+                      <span className="standard-preis">60,00 €</span>
+                    </div>
+                    <div className="feld">
+                      <label>Eigener Preis (optional):</label>
+                      <input
+                        type="number"
+                        placeholder="0,00"
+                        value={lieferung.eigenerPreis}
+                        onChange={(e) => setLieferung({...lieferung, eigenerPreis: parseFloat(e.target.value) || 0})}
+                        className="eigener-preis-input"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Monteur Kachel */}
+            <div className="zusatzkosten-kachel">
+              <h3>
+                <span className="icon icon-user"></span>
+                Monteur
+              </h3>
+              <div className="kachel-content">
+                <div className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={monteur.aktiv}
+                    onChange={(e) => setMonteur({...monteur, aktiv: e.target.checked})}
+                  />
+                  Monteur aktivieren
+                </div>
+                {monteur.aktiv && (
+                  <div className="kachel-details">
+                    <div className="feld">
+                      <label>Anzahl Monteure:</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={monteur.anzahl}
+                        onChange={(e) => setMonteur({...monteur, anzahl: parseInt(e.target.value) || 1})}
+                        className="monteur-input"
+                      />
+                    </div>
+                    <div className="feld">
+                      <label>Stunden:</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={monteur.stunden}
+                        onChange={(e) => setMonteur({...monteur, stunden: parseInt(e.target.value) || 1})}
+                        className="monteur-input"
+                      />
+                    </div>
+                    <div className="feld">
+                      <label>Standard Stundenpreis:</label>
+                      <span className="standard-preis">85,00 €</span>
+                    </div>
+                    <div className="feld">
+                      <label>Eigener Stundenpreis (optional):</label>
+                      <input
+                        type="number"
+                        placeholder="0,00"
+                        value={monteur.eigenerPreis}
+                        onChange={(e) => setMonteur({...monteur, eigenerPreis: parseFloat(e.target.value) || 0})}
+                        className="eigener-preis-input"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Rabatt Block - nach unten verschoben */}
           <div className="rabatt-block">
             <h3>Rabatt</h3>
             <div className="rabatt-controls">
@@ -712,126 +773,55 @@ const EingabeFormular = () => {
             />
           </div>
 
-          {/* Lieferung Block */}
-          <div className="lieferung-block">
-            <h3>Lieferung</h3>
-            <div className="lieferung-controls">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={lieferung.aktiv}
-                  onChange={(e) => setLieferung({...lieferung, aktiv: e.target.checked})}
-                />
-                Lieferung aktivieren
-              </label>
-            </div>
-            {lieferung.aktiv && (
-              <div className="lieferung-details">
-                <div className="lieferung-field">
-                  <label>Standard Lieferkosten:</label>
-                  <span className="standard-preis">60,00 €</span>
-                </div>
-                <div className="lieferung-field">
-                  <label>Eigener Preis (optional):</label>
-                  <input
-                    type="number"
-                    placeholder="0,00"
-                    value={lieferung.eigenerPreis}
-                    onChange={(e) => setLieferung({...lieferung, eigenerPreis: parseFloat(e.target.value) || 0})}
-                    className="eigener-preis-input"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Monteur Block */}
-          <div className="monteur-block">
-            <h3>Monteur</h3>
-            <div className="monteur-controls">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={monteur.aktiv}
-                  onChange={(e) => setMonteur({...monteur, aktiv: e.target.checked})}
-                />
-                Monteur aktivieren
-              </label>
-            </div>
-            {monteur.aktiv && (
-              <div className="monteur-details">
-                <div className="monteur-field">
-                  <label>Anzahl Monteure:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={monteur.anzahl}
-                    onChange={(e) => setMonteur({...monteur, anzahl: parseInt(e.target.value) || 1})}
-                    className="monteur-input"
-                  />
-                </div>
-                <div className="monteur-field">
-                  <label>Stunden:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={monteur.stunden}
-                    onChange={(e) => setMonteur({...monteur, stunden: parseInt(e.target.value) || 1})}
-                    className="monteur-input"
-                  />
-                </div>
-                <div className="monteur-field">
-                  <label>Standard Stundenpreis:</label>
-                  <span className="standard-preis">85,00 €</span>
-                </div>
-                <div className="monteur-field">
-                  <label>Eigener Stundenpreis (optional):</label>
-                  <input
-                    type="number"
-                    placeholder="0,00"
-                    value={monteur.eigenerPreis}
-                    onChange={(e) => setMonteur({...monteur, eigenerPreis: parseFloat(e.target.value) || 0})}
-                    className="eigener-preis-input"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Preisaufschlüsselung */}
-          <div className="preisaufschlüsselung">
-            <h3>Preisaufschlüsselung</h3>
-            <div className="preis-details">
-              <div className="preis-zeile">
-                <span>Netto-Preis:</span>
-                <span>{berechneNettoPreis().toFixed(2)} €</span>
-              </div>
-              {lieferung.aktiv && (
-                <div className="preis-zeile">
-                  <span>Lieferkosten (Brutto):</span>
-                  <span>{(berechneLieferkosten() * 1.19).toFixed(2)} €</span>
-                </div>
-              )}
-              {monteur.aktiv && (
-                <div className="preis-zeile">
-                  <span>Monteur-Kosten (Brutto):</span>
-                  <span>{(berechneMonteurKosten() * 1.19).toFixed(2)} €</span>
-                </div>
-              )}
-              {rabatt.wert > 0 && (
-                <div className="preis-zeile rabatt-zeile">
-                  <span>Rabatt ({rabatt.typ === 'prozent' ? `${rabatt.wert}%` : `${rabatt.wert}€`}):</span>
-                  <span>-{berechneRabatt(glasGesamtpreis + reparaturGesamtpreis + (berechneLieferkosten() * 1.19) + (berechneMonteurKosten() * 1.19)).toFixed(2)} €</span>
-                </div>
-              )}
-              <div className="preis-zeile gesamt">
-                <span>Gesamtpreis (Brutto):</span>
-                <span>{berechneGesamtpreis().toFixed(2)} €</span>
-              </div>
-            </div>
-          </div>
+          {/* Preisaufschlüsselung ausgeblendet */}
         </>
       )}
+
+      {/* Kundendaten Block - nach unten verschoben */}
+      <div className="kundendaten-block">
+        <h3>
+          <span className="icon icon-user"></span>
+          Kundendaten
+        </h3>
+        <div className="kundendaten-grid">
+          <div className="feld">
+            <label>Name *</label>
+            <input type="text" name="name" value={kundenDaten.name} onChange={handleKunde} required placeholder="Vollständiger Name" />
+          </div>
+          <div className="feld">
+            <label>E-Mail *</label>
+            <input type="email" name="email" value={kundenDaten.email} onChange={handleKunde} required placeholder="ihre.email@beispiel.de" />
+          </div>
+          <div className="feld">
+            <label>Telefon</label>
+            <input type="text" name="telefon" value={kundenDaten.telefon} onChange={handleKunde} placeholder="+49 123 456789" />
+          </div>
+          <div className="feld">
+            <label>Firma</label>
+            <input type="text" name="firma" value={kundenDaten.firma} onChange={handleKunde} placeholder="Firmenname (optional)" />
+          </div>
+          <div className="feld feld-full">
+            <label>Straße</label>
+            <input type="text" name="strasse" value={kundenDaten.strasse} onChange={handleKunde} placeholder="Straße und Hausnummer" />
+          </div>
+          <div className="feld">
+            <label>PLZ</label>
+            <input type="text" name="plz" value={kundenDaten.plz} onChange={handleKunde} placeholder="12345" />
+          </div>
+          <div className="feld">
+            <label>Ort</label>
+            <input type="text" name="ort" value={kundenDaten.ort} onChange={handleKunde} placeholder="Stadt" />
+          </div>
+          <div className="feld">
+            <label>Zusatz</label>
+            <input type="text" name="zusatz" value={kundenDaten.zusatz} onChange={handleKunde} placeholder="Etage, Zimmer, etc." />
+          </div>
+          <div className="feld">
+            <label>Gültig bis</label>
+            <input type="text" name="gueltigBis" value={kundenDaten.gueltigBis} onChange={handleKunde} readOnly style={{ backgroundColor: '#f9fafb', cursor: 'not-allowed' }} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
