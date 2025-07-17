@@ -199,8 +199,9 @@ export function erstellePdf({
   // Lieferkosten (falls aktiviert)
   if (lieferung && lieferung.aktiv) {
     const lieferkosten = lieferung.eigenerPreis > 0 ? lieferung.eigenerPreis : lieferung.standardPreis;
-    doc.text(`Lieferkosten:`, 10, priceY);
-    doc.text(`${lieferkosten.toFixed(2)} €`, 180, priceY, { align: 'right' });
+    const lieferkostenBrutto = lieferkosten * 1.19; // 19% MwSt
+    doc.text(`Lieferkosten (Brutto):`, 10, priceY);
+    doc.text(`${lieferkostenBrutto.toFixed(2)} €`, 180, priceY, { align: 'right' });
     priceY += 6;
   }
   
@@ -208,8 +209,9 @@ export function erstellePdf({
   if (monteur && monteur.aktiv) {
     const stundenpreis = monteur.eigenerPreis > 0 ? monteur.eigenerPreis : monteur.standardStundenpreis;
     const monteurKosten = monteur.anzahl * monteur.stunden * stundenpreis;
-    doc.text(`Monteur-Kosten (${monteur.anzahl} Monteur${monteur.anzahl > 1 ? 'e' : ''}, ${monteur.stunden} Stunde${monteur.stunden > 1 ? 'n' : ''}):`, 10, priceY);
-    doc.text(`${monteurKosten.toFixed(2)} €`, 180, priceY, { align: 'right' });
+    const monteurKostenBrutto = monteurKosten * 1.19; // 19% MwSt
+    doc.text(`Monteur-Kosten (Brutto) (${monteur.anzahl} Monteur${monteur.anzahl > 1 ? 'e' : ''}, ${monteur.stunden} Stunde${monteur.stunden > 1 ? 'n' : ''}):`, 10, priceY);
+    doc.text(`${monteurKostenBrutto.toFixed(2)} €`, 180, priceY, { align: 'right' });
     priceY += 6;
   }
   

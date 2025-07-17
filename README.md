@@ -1,112 +1,97 @@
-# 🏢 Akif Telefon Verkauf - Glas-Angebotserstellung
+# Glas-Angebotserstellung
 
-Eine React-basierte Webanwendung zur Erstellung von Glas-Angeboten für Akif Telefon Verkauf.
+Eine moderne React-Anwendung zur Erstellung von Glas-Angeboten mit automatischer Preisberechnung, PDF-Export und E-Mail-Versand.
 
-## 🚀 Features
+## Features
 
-- **Kundendaten-Verwaltung**: Vollständige Erfassung von Kundeninformationen
-- **Glaspositionen**: Eingabe verschiedener Glasarten (Floatglas, ESG, VSG) mit Maßen
-- **Preisberechnung**: Automatische Berechnung basierend auf Fläche, Glasart und Bearbeitung
-- **PDF-Export**: Generierung professioneller Angebote als PDF
-- **E-Mail-Versand**: Direkter Versand der Angebote per E-Mail (EmailJS)
-- **Responsive Design**: Optimiert für Desktop und mobile Geräte
+- ✅ **Dynamische Glasarten** aus CSV-Datei
+- ✅ **Automatische Preisberechnung** mit MwSt
+- ✅ **Lieferkosten und Monteur-Kosten** mit Brutto-Berechnung
+- ✅ **Rabatt-System** (Prozent oder Betrag)
+- ✅ **PDF-Export** mit professionellem Layout
+- ✅ **E-Mail-Versand** über EmailJS
+- ✅ **Responsive Design** mit moderner UI
+- ✅ **CSV-Preisverwaltung** für einfache Aktualisierung
 
-## 📦 Installation
+## Technologie
 
-1. **Abhängigkeiten installieren:**
-   ```bash
-   npm install
-   ```
+- **React 18** mit Hooks
+- **Vite** für schnelle Entwicklung
+- **jsPDF** für PDF-Erstellung
+- **EmailJS** für E-Mail-Versand
+- **Moderne CSS** mit CSS-Variablen
 
-2. **Entwicklungsserver starten:**
-   ```bash
-   npm run dev
-   ```
+## Installation
 
-3. **Browser öffnen:**
-   Die Anwendung läuft unter `http://localhost:3000`
+```bash
+npm install
+```
 
-## 🏗️ Projektstruktur
+## Entwicklung
+
+```bash
+npm run dev
+```
+
+## Production Build
+
+```bash
+npm run build
+```
+
+## Deployment auf Netlify
+
+Siehe [DEPLOYMENT.md](./DEPLOYMENT.md) für detaillierte Anweisungen.
+
+### Schnellstart:
+
+1. **Repository auf GitHub/GitLab hochladen**
+2. **Netlify Dashboard** öffnen: https://app.netlify.com/
+3. **"New site from Git"** → Repository auswählen
+4. **Build-Einstellungen**:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+5. **"Deploy site"** klicken
+
+## Projektstruktur
 
 ```
-Akif Telefon Verkauf/
 ├── components/
-│   └── EingabeFormular.jsx    # Hauptkomponente für die Angebotserstellung
+│   └── EingabeFormular.jsx    # Hauptkomponente
 ├── data/
-│   ├── glasarten.js           # Definition der verfügbaren Glasarten
-│   ├── preise.js              # Preislisten für verschiedene Glasarten
-│   └── formZuschlaege.js      # Zuschläge für spezielle Formen
+│   ├── formZuschlaege.js      # Formzuschläge
+│   ├── glasarten.js           # Glasarten (Legacy)
+│   └── preise.js              # Preise für Bearbeitung
 ├── utils/
-│   ├── berechnePreis.js       # Preisberechnungslogik
-│   ├── erstellePdf.js         # PDF-Generierung mit jsPDF
-│   └── versendeMail.js        # E-Mail-Versand mit EmailJS
-├── src/
-│   ├── App.jsx                # Haupt-App-Komponente
-│   └── main.jsx               # React-Einstiegspunkt
-├── style.css                  # Globale Styles
-└── index.html                 # HTML-Template
+│   ├── berechnePreis.js       # Preisberechnung
+│   ├── erstellePdf.js         # PDF-Erstellung
+│   ├── versendeMail.js        # E-Mail-Versand
+│   ├── ladePreise.js          # CSV-Preisverwaltung
+│   ├── testPreisberechnung.js # Tests
+│   └── debugCSV.js            # Debug-Tools
+├── public/
+│   ├── _redirects             # Netlify SPA-Routing
+│   └── data/                  # CSV-Dateien
+└── style.css                  # Globale Styles
 ```
 
-## ⚙️ Konfiguration
+## Konfiguration
 
-### EmailJS Setup (für E-Mail-Versand)
+### EmailJS Setup
 
-1. Registrieren Sie sich bei [EmailJS](https://www.emailjs.com/)
-2. Erstellen Sie einen Service (z.B. Gmail)
-3. Erstellen Sie ein E-Mail-Template
-4. Aktualisieren Sie die Konfiguration in `utils/versendeMail.js`:
+1. **EmailJS Account** erstellen: https://www.emailjs.com/
+2. **Service-ID** und **Template-ID** konfigurieren
+3. **Public Key** in der Anwendung verwenden
 
-```javascript
-const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
-```
+### CSV-Preisverwaltung
 
-## 💰 Preisberechnung
+Die Preise werden aus CSV-Dateien geladen:
+- `public/data/preise.csv` - Glasarten und Preise
+- Automatische Aktualisierung ohne Code-Änderungen
 
-Die Anwendung berechnet Preise basierend auf:
+## Support
 
-- **Glasart**: Floatglas, ESG, VSG
-- **Stärke**: 4-12mm
-- **Fläche**: Mindestfläche 0.25m²
-- **Formzuschläge**: Für Kreise, Dreiecke, etc.
-- **Bearbeitung**: Bohrungen, Steckdosen, Kanten
-- **MwSt**: 19% auf den Nettopreis
-
-## 🎨 Verwendete Technologien
-
-- **React 18**: Moderne React-Features
-- **Vite**: Schneller Build-Tool
-- **jsPDF**: PDF-Generierung
-- **EmailJS**: E-Mail-Versand
-- **CSS Grid/Flexbox**: Responsive Layout
-
-## 📱 Browser-Support
-
-- Chrome (empfohlen)
-- Firefox
-- Safari
-- Edge
-
-## 🔧 Entwicklung
-
-### Verfügbare Scripts
-
-- `npm run dev` - Startet den Entwicklungsserver
-- `npm run build` - Erstellt eine Produktionsversion
-- `npm run preview` - Zeigt die Produktionsversion an
-
-### Code-Struktur
-
-- **Komponenten**: Funktionskomponenten mit Hooks
-- **State Management**: React useState für lokalen State
-- **Styling**: CSS-Klassen mit responsivem Design
-- **Daten**: Zentrale Datenstrukturen in `/data`
-
-## 📄 Lizenz
-
-Dieses Projekt ist für Akif Telefon Verkauf entwickelt.
-
-## 🤝 Support
-
-Bei Fragen oder Problemen wenden Sie sich an das Entwicklungsteam. 
+Bei Fragen oder Problemen:
+1. **Build-Logs** in Netlify prüfen
+2. **Browser-Konsole** für JavaScript-Fehler
+3. **Lokal testen** mit `npm run build && npm run preview` 

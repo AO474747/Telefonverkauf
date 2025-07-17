@@ -326,7 +326,11 @@ const EingabeFormular = () => {
   const lieferkosten = berechneLieferkosten();
   const monteurKosten = berechneMonteurKosten();
   
-  const zwischensumme = glasGesamtpreis + reparaturGesamtpreis + lieferkosten + monteurKosten;
+  // Berechne Brutto-Beträge für Lieferung und Monteur (19% MwSt)
+  const lieferkostenBrutto = lieferkosten * 1.19;
+  const monteurKostenBrutto = monteurKosten * 1.19;
+  
+  const zwischensumme = glasGesamtpreis + reparaturGesamtpreis + lieferkostenBrutto + monteurKostenBrutto;
   const zwischensummeNetto = glasGesamtNettopreis + reparaturGesamtpreis + lieferkosten + monteurKosten;
   
   let rabattBetrag = 0;
@@ -383,8 +387,15 @@ const EingabeFormular = () => {
     const nettoPreis = berechneNettoPreis();
     const lieferkosten = berechneLieferkosten();
     const monteurKosten = berechneMonteurKosten();
-    const rabattBetrag = berechneRabatt(nettoPreis + lieferkosten + monteurKosten);
-    return nettoPreis + lieferkosten + monteurKosten - rabattBetrag;
+    
+    // Berechne Brutto-Beträge für Lieferung und Monteur (19% MwSt)
+    const lieferkostenBrutto = lieferkosten * 1.19;
+    const monteurKostenBrutto = monteurKosten * 1.19;
+    
+    const bruttoPreis = glasGesamtpreis + reparaturGesamtpreis + lieferkostenBrutto + monteurKostenBrutto;
+    const rabattBetrag = berechneRabatt(bruttoPreis);
+    
+    return Math.max(0, bruttoPreis - rabattBetrag);
   };
 
   return (
@@ -797,20 +808,20 @@ const EingabeFormular = () => {
               </div>
               {lieferung.aktiv && (
                 <div className="preis-zeile">
-                  <span>Lieferkosten:</span>
-                  <span>{berechneLieferkosten().toFixed(2)} €</span>
+                  <span>Lieferkosten (Brutto):</span>
+                  <span>{(berechneLieferkosten() * 1.19).toFixed(2)} €</span>
                 </div>
               )}
               {monteur.aktiv && (
                 <div className="preis-zeile">
-                  <span>Monteur-Kosten:</span>
-                  <span>{berechneMonteurKosten().toFixed(2)} €</span>
+                  <span>Monteur-Kosten (Brutto):</span>
+                  <span>{(berechneMonteurKosten() * 1.19).toFixed(2)} €</span>
                 </div>
               )}
               {rabatt.wert > 0 && (
                 <div className="preis-zeile rabatt-zeile">
                   <span>Rabatt ({rabatt.typ === 'prozent' ? `${rabatt.wert}%` : `${rabatt.wert}€`}):</span>
-                  <span>-{berechneRabatt(berechneNettoPreis() + berechneLieferkosten() + berechneMonteurKosten()).toFixed(2)} €</span>
+                  <span>-{berechneRabatt(glasGesamtpreis + reparaturGesamtpreis + (berechneLieferkosten() * 1.19) + (berechneMonteurKosten() * 1.19)).toFixed(2)} €</span>
                 </div>
               )}
               <div className="preis-zeile gesamt">
